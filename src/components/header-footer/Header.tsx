@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Button } from "@mui/material";
 
 import { CityLogo, showErrorToast, showSuccessToast } from "../utils/tools";
-import { UserType } from "../types";
+import { UserType } from "../../types/types";
 
 import { Link } from "react-router-dom";
 

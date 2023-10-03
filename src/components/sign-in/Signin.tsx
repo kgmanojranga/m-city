@@ -19,13 +19,15 @@ import { auth } from "../../firebase-config";
 
 //Toastify-library
 import { showSuccessToast, showErrorToast } from "../utils/tools";
+import { UserType } from "../../types/types";
+import { Dashboard } from "@mui/icons-material";
 
 interface AuthCredential {
   email: string;
   password: string;
 }
 
-function Signin() {
+function Signin({ user }: UserType) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -60,40 +62,46 @@ function Signin() {
   }
 
   return (
-    <div className="container">
-      <div className="signin_wrapper" style={{ margin: "100px" }}>
-        <form onSubmit={formik.handleSubmit}>
-          <h2>Please Login</h2>
-          <input
-            name="email"
-            placeholder="E-mail"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {!!formik.touched.email && formik.errors.email ? (
-            <div className="error_label">{formik.errors.email}</div>
-          ) : null}
-          <input
-            name="password"
-            placeholder="Enter your password"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="error_label">{formik.errors.password}</div>
-          ) : null}
+    <>
+      {!user ? (
+        <div className="container">
+          <div className="signin_wrapper" style={{ margin: "100px" }}>
+            <form onSubmit={formik.handleSubmit}>
+              <h2>Please Login</h2>
+              <input
+                name="email"
+                placeholder="E-mail"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+              {!!formik.touched.email && formik.errors.email ? (
+                <div className="error_label">{formik.errors.email}</div>
+              ) : null}
+              <input
+                name="password"
+                placeholder="Enter your password"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error_label">{formik.errors.password}</div>
+              ) : null}
 
-          {isLoading ? (
-            <CircularProgress color="secondary" className="progress" />
-          ) : (
-            <button type="submit">Log in</button>
-          )}
-        </form>
-      </div>
-    </div>
+              {isLoading ? (
+                <CircularProgress color="secondary" className="progress" />
+              ) : (
+                <button type="submit">Log in</button>
+              )}
+            </form>
+          </div>
+        </div>
+      ) : (
+        <Dashboard />
+      )}
+    </>
   );
 }
 

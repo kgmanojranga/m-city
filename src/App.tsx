@@ -18,6 +18,7 @@ import { User } from "firebase/auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Dashboard } from "./components/admin/Dashboard";
+import { AuthGuard } from "./hoc/Auth";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -32,8 +33,15 @@ function App() {
       <Header user={user} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="sign-in" element={<Signin />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="sign-in" element={<Signin user={user} />} />
+        <Route
+          path="dashboard"
+          element={
+            <AuthGuard user={user}>
+              <Dashboard />
+            </AuthGuard>
+          }
+        />
       </Routes>
       <ToastContainer />
       <Footer />

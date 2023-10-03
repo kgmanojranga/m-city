@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 import mcitylogo from "../../../public/images/logos/manchester_city_logo.png";
 
+import { toast } from "react-toastify";
+
 type CityLogoProps = {
   link: boolean;
   linkTo: string;
@@ -18,7 +20,7 @@ function CityLogo({ link, linkTo, width, height }: CityLogoProps) {
       style={{
         width: width,
         height: height,
-        background: `url(${mcitylogo}) no-repeat`,
+        background: `url(${mcitylogo}) no-repeat`
       }}
     ></div>
   );
@@ -30,4 +32,20 @@ function CityLogo({ link, linkTo, width, height }: CityLogoProps) {
   }
 }
 
-export { CityLogo };
+function showErrorToast(msg: string) {
+  toast.error(msg, {
+    position: toast.POSITION.TOP_LEFT,
+    autoClose: 2000
+    // theme: "colored"
+  });
+}
+
+function showSuccessToast(msg: string) {
+  toast.success(msg, {
+    position: toast.POSITION.TOP_LEFT,
+    autoClose: 2000
+    // theme: "colored"
+  });
+}
+
+export { CityLogo, showErrorToast, showSuccessToast };

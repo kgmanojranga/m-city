@@ -1,9 +1,24 @@
 import { AppBar, Toolbar, Button } from "@mui/material";
 
-import { Link } from "react-router-dom";
-import { CityLogo } from "../utils/tools";
+import { CityLogo, showErrorToast, showSuccessToast } from "../utils/tools";
+import { UserType } from "../types";
 
-function Header() {
+import { Link } from "react-router-dom";
+
+//Firebase-library
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
+
+function Header({ user }: UserType) {
+  async function handleLogOut() {
+    try {
+      await signOut(auth);
+      showSuccessToast("Good Bye");
+    } catch (error) {
+      showErrorToast("Error Signing Out");
+    }
+  }
+
   return (
     <AppBar
       position="fixed"
@@ -11,7 +26,7 @@ function Header() {
         backgroundColor: "#98c5e9",
         boxShadow: "none",
         padding: "10px 0",
-        borderBottom: "2px solid #00285e",
+        borderBottom: "2px solid #00285e"
       }}
     >
       <Toolbar style={{ display: "flex" }}>
@@ -20,15 +35,23 @@ function Header() {
             <CityLogo link={true} linkTo={"/"} width="70px" height="70px" />
           </div>
         </div>
-        <Link to="/the_team">
+        <Link to="/the-team">
           <Button color="inherit">The team</Button>
         </Link>
-        <Link to="/the_matches">
+        <Link to="/the-matches">
           <Button color="inherit">Matches</Button>
         </Link>
-        <Link to="/dashboard">
-          <Button color="inherit">Dashboard</Button>
-        </Link>
+        {user ? (
+          <>
+            <Link to="/dashboard">
+              <Button color="inherit">Dashboard</Button>
+            </Link>
+
+            <Button color="inherit" onClick={() => handleLogOut()}>
+              Log Out
+            </Button>
+          </>
+        ) : null}
       </Toolbar>
     </AppBar>
   );

@@ -1,5 +1,10 @@
+import { Featured } from "./featured";
 function Home() {
-  return <h1>Home</h1>;
+  return (
+    <div className="bck_blue">
+      <Featured />
+    </div>
+  );
 }
 
 export { Home };

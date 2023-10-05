@@ -9,8 +9,7 @@ type AdminLink = {
   linkTo: string;
 };
 
-function AdminNav(props) {
-  console.log(props);
+function AdminNav() {
   const links: AdminLink[] = [
     {
       title: "Matches",

@@ -1,10 +1,10 @@
 import { Stripes } from "./Stripes";
-import Test from "./Test";
+import { Text } from "./Text";
 function Featured() {
   return (
     <div className="featured_wrapper">
       <Stripes />
-      {/* <Test /> */}
+      <Text />
     </div>
   );
 }

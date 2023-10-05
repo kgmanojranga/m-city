@@ -1,24 +1,11 @@
 import { AppBar, Toolbar, Button } from "@mui/material";
 
-import { CityLogo, showErrorToast, showSuccessToast } from "../utils/tools";
+import { CityLogo, handleLogOut } from "../utils/tools";
 import { UserType } from "../../types/types";
 
 import { Link } from "react-router-dom";
 
-//Firebase-library
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase-config";
-
 function Header({ user }: UserType) {
-  async function handleLogOut() {
-    try {
-      await signOut(auth);
-      showSuccessToast("Good Bye");
-    } catch (error) {
-      showErrorToast("Error Signing Out");
-    }
-  }
-
   return (
     <AppBar
       position="fixed"

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import mcitylogo from "../../../public/images/logos/manchester_city_logo.png";
 
 import { toast } from "react-toastify";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
 
 type CityLogoProps = {
   link: boolean;
@@ -48,4 +50,13 @@ function showSuccessToast(msg: string) {
   });
 }
 
-export { CityLogo, showErrorToast, showSuccessToast };
+async function handleLogOut() {
+  try {
+    await signOut(auth);
+    showSuccessToast("Good Bye");
+  } catch (error) {
+    showErrorToast("Error Signing Out");
+  }
+}
+
+export { CityLogo, showErrorToast, showSuccessToast, handleLogOut };

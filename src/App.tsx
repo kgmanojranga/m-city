@@ -41,7 +41,10 @@ function App() {
               <Dashboard />
             </AuthGuard>
           }
-        />
+        >
+          {/* <Route path="admin-matches" element={<Matches />} />
+          <Route path="admin-players" element={<Players />} /> */}
+        </Route>
       </Routes>
       <ToastContainer />
       <Footer />

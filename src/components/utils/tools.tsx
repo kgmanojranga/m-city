@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -34,6 +34,46 @@ function CityLogo({ link, linkTo, width, height }: CityLogoProps) {
   }
 }
 
+export const Tag = ({
+  children,
+  link,
+  bck = "#fff",
+  size = "15px",
+  add
+}: {
+  children: ReactNode;
+  link?: string;
+  linkTo?: string;
+  bck?: string;
+  size?: string;
+  add?: React.CSSProperties;
+}) => {
+  const template = (
+    <div
+      style={{
+        background: bck,
+        fontSize: size,
+        padding: "5px 10px",
+        display: "inline-block",
+        fontFamily: "Righteous",
+        ...add
+      }}
+    >
+      {children}
+    </div>
+  );
+
+  if (link) {
+    return (
+      <Link className="link_logo" to={link}>
+        {template}
+      </Link>
+    );
+  }
+
+  return template;
+};
+
 function showErrorToast(msg: string) {
   toast.error(msg, {
     position: toast.POSITION.TOP_LEFT,
@@ -59,4 +99,5 @@ async function handleLogOut() {
   }
 }
 
-export { CityLogo, showErrorToast, showSuccessToast, handleLogOut };
+export { CityLogo };
+export { showErrorToast, showSuccessToast, handleLogOut };

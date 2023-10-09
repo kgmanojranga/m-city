@@ -1,4 +1,5 @@
 export type MatchesType = {
+  id: string;
   away: string;
   awayThmb: string;
   date: string;
@@ -13,6 +14,7 @@ export type MatchesType = {
 };
 
 export type PlayerType = {
+  id: string;
   image: string;
   lastname: string;
   name: string;
@@ -21,6 +23,7 @@ export type PlayerType = {
 };
 
 export type PositionType = {
+  id: string;
   d: string;
   l: string;
   p: string;
@@ -30,10 +33,12 @@ export type PositionType = {
 };
 
 export type PromotionsType = {
+  id: string;
   email: string;
 };
 
 export type TeamsType = {
+  id: string;
   name: string;
   shortName: string;
   thmb: string;
@@ -47,7 +52,7 @@ export type CityDbType = {
   teams: TeamsType[];
 };
 
-export const cityDb: CityDbType = {
+export const cityDb = {
   matches: [
     {
       away: "Man.City",

@@ -1,5 +1,7 @@
 import { Tag } from "../../utils/tools";
 import { Fade } from "react-awesome-reveal";
+import { HomeCard } from "./HomeCards";
+import { useState } from "react";
 
 const tagDefault = {
   bck: "#0e1731",
@@ -8,6 +10,7 @@ const tagDefault = {
 };
 
 function MeetPlayers() {
+  const [show, setShow] = useState<boolean>(false);
   function showTextTag(text: string) {
     return (
       <Tag
@@ -19,11 +22,20 @@ function MeetPlayers() {
     );
   }
   return (
-    <Fade triggerOnce>
+    <Fade
+      onVisibilityChange={(inView) => {
+        if (inView) {
+          setShow(true);
+        }
+      }}
+      triggerOnce
+    >
       <div className="home_meetplayers">
         <div className="container">
           <div className="home_meetplayers_wrapper">
-            <div className="home_card_wrapper">card</div>
+            <div className="home_card_wrapper">
+              <HomeCard show={show} />
+            </div>
             <div className="home_text_wrapper">
               <div>{showTextTag("Meet")}</div>
               <div>{showTextTag("The")}</div>

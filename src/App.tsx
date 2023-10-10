@@ -5,20 +5,20 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //Components
-import { Header } from "./components/header-footer/Header";
-import { Footer } from "./components/header-footer/Footer";
-import { Home } from "./components/home/Home";
-import { Signin } from "./components/sign-in/Signin";
+import { Header } from "./components/header-footer";
+import { Footer } from "./components/header-footer";
+import { Home } from "./components/home";
+import { Signin } from "./components/sign-in";
 
 //Firebase
-import { auth } from "./firebase-config";
+import { auth } from "./components/config/firebase-config";
 import { User } from "firebase/auth";
 
 //Toastify-library
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Dashboard } from "./components/admin/Dashboard";
-import { AuthGuard } from "./hoc/Auth";
+import { AuthGuard } from "./hoc";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);

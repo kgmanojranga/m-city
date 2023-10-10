@@ -15,7 +15,7 @@ import * as Yup from "yup";
 
 //Firebase-library
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { auth } from "../config/firebase-config";
 
 //Toastify-library
 import { showSuccessToast, showErrorToast } from "../utils/tools";

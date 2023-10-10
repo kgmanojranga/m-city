@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import { easePolyOut } from "d3-ease";
 import { Animate } from "react-move";
-import player from "../../../../public/images/featured_player.png";
+import player from "/images/featured_player.png";
 
 function Text() {
   function animateNumber() {

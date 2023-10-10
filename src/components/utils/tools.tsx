@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 import { Link } from "react-router-dom";
 
-import mcitylogo from "../../../public/images/logos/manchester_city_logo.png";
+import mcitylogo from "/images/logos/manchester_city_logo.png";
 
 import { toast } from "react-toastify";
 import { signOut } from "firebase/auth";

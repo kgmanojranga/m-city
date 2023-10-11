@@ -21,9 +21,13 @@ function AuthGuard({ children, user }: AuthGuardProps) {
         console.log("user not found");
         return;
       }
+
+      console.log("outside if");
     },
     [navigate, user, children]
   );
+
+  console.log("Outside");
 
   return <>{user ? <>{children}</> : null}</>;
 }

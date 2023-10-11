@@ -20,6 +20,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Dashboard } from "./components/admin/Dashboard";
 import { AuthGuard } from "./hoc";
+import { AddEditPlayers } from "./components/admin/players/AddEditPlayers";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -28,6 +29,8 @@ function App() {
       setUser(user);
     });
   }, []);
+
+  console.log(user);
 
   return (
     <BrowserRouter>
@@ -48,6 +51,22 @@ function App() {
           element={
             <AuthGuard user={user}>
               <AdminPlayers />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="admin-players/add-player"
+          element={
+            <AuthGuard user={user}>
+              <AddEditPlayers />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="admin-players/edit-player/:player-id"
+          element={
+            <AuthGuard user={user}>
+              <AddEditPlayers />
             </AuthGuard>
           }
         />

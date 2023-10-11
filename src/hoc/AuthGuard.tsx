@@ -6,22 +6,23 @@ import { useNavigate } from "react-router-dom";
 
 import { User } from "firebase/auth";
 
-interface AuthRouteProps {
+interface AuthGuardProps {
   children: ReactNode;
   user: User | null;
 }
 
-function AuthGuard({ children, user }: AuthRouteProps) {
+function AuthGuard({ children, user }: AuthGuardProps) {
   const navigate = useNavigate();
 
   useEffect(
     function () {
       if (!user) {
         navigate("/sign-in");
+        console.log("user not found");
         return;
       }
     },
-    [navigate, user]
+    [navigate, user, children]
   );
 
   return <>{user ? <>{children}</> : null}</>;

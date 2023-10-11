@@ -23,7 +23,7 @@ function AdminNav() {
 
   function renderItems() {
     return links.map((link) => (
-      <Link to={link.linkTo} key={link.title}>
+      <Link to={`/${link.linkTo}`} key={link.title}>
         <ListItem className="admin_nav_link">{link.title}</ListItem>
       </Link>
     ));

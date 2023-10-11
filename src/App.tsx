@@ -9,6 +9,7 @@ import { Header } from "./components/header-footer";
 import { Footer } from "./components/header-footer";
 import { Home } from "./components/home";
 import { Signin } from "./components/sign-in";
+import { AdminPlayers } from "./components/admin/players";
 
 //Firebase
 import { auth } from "./components/config/firebase-config";
@@ -41,10 +42,15 @@ function App() {
               <Dashboard />
             </AuthGuard>
           }
-        >
-          {/* <Route path="admin-matches" element={<Matches />} />
-          <Route path="admin-players" element={<Players />} /> */}
-        </Route>
+        />
+        <Route
+          path="admin-players"
+          element={
+            <AuthGuard user={user}>
+              <AdminPlayers />
+            </AuthGuard>
+          }
+        />
       </Routes>
       <ToastContainer />
       <Footer />

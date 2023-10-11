@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { easePolyOut } from "d3-ease";
 import { Animate } from "react-move";
 
-let stripesState = [
+const stripesState = [
   {
     id: 11234,
     background: "#98c5e9",

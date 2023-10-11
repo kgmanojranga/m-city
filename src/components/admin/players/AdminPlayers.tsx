@@ -10,7 +10,8 @@ function AdminPlayers() {
   const [loading, setLoading] = useState(false);
   const [players, setPlayers] = useState<PlayerType[] | null>(null);
 
-  //   console.log(lastVisible);
+  console.log(lastVisible);
+  //   console.log(loading);
 
   const dataLoading = useCallback(
     async function () {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AdminLayout } from "../../../hoc";
-import { FormikErrors, FormikTouched, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import {
@@ -19,17 +19,19 @@ import {
 } from "@mui/material";
 
 import { playersCollection } from "../../config/firebase-config";
+import { useNavigate, useParams } from "react-router-dom";
+import { addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 
 type ValueType = {
   name: string;
-  lastName: string;
+  lastname: string;
   number: string;
   position: string;
 };
 
 const defaultValue: ValueType = {
   name: "",
-  lastName: "",
+  lastname: "",
   number: "",
   position: ""
 };
@@ -38,32 +40,70 @@ function AddEditPlayers() {
   const [formType, setFormType] = useState<string>("");
   const [values, setValues] = useState<ValueType>(defaultValue);
   const [loading, setLoading] = useState<boolean>(false);
+  const { playerid } = useParams();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: values,
     validationSchema: Yup.object({
       name: Yup.string().required("This input is required"),
-      lastName: Yup.string().required("This input is required"),
+      lastname: Yup.string().required("This input is required"),
       number: Yup.number()
         .required("This is required")
         .min(0, "The minimum is zero")
         .max(100, "The max is 100"),
       position: Yup.string().required("This is required")
     }),
-    onSubmit: () => {}
+    onSubmit: (values: ValueType) => {
+      handleSubmit(values);
+    }
   });
 
-  //   useEffect(() => {
-  //     const param = user.params.playerid;
-  //     if (param) {
-  //       setFormType("edit");
-  //       //   setValues();
-  //     } else {
-  //       setFormType("add");
-  //       setValues(defaultValue);
-  //     }
-  //   }, [match.params.playerid]);
+  async function handleSubmit(values: ValueType) {
+    try {
+      setLoading(true);
+      if (formType === "add") {
+        await addDoc(playersCollection, values);
+        formik.resetForm();
+        showSuccessToast("Player was added successfully");
+        navigate("/admin-players");
+      } else {
+        const playerRef = doc(playersCollection, playerid);
+        await updateDoc(playerRef, values);
+        formik.resetForm();
+        showSuccessToast("Player was updated successfully");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function getPlayer() {
+    try {
+      const playerRef = doc(playersCollection, playerid);
+      const playerSnap = await getDoc(playerRef);
+      if (playerSnap.exists()) {
+        setFormType("edit");
+        setValues(playerSnap.data() as ValueType);
+      } else {
+        showErrorToast("Sorry, nothing was found");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
+    if (playerid) {
+      getPlayer();
+    } else {
+      setFormType("add");
+      setValues(defaultValue);
+    }
+  }, [playerid]);
 
   return (
     <AdminLayout title={formType === "add" ? "Add Player" : "Edit Player"}>
@@ -87,11 +127,11 @@ function AddEditPlayers() {
             <div className="mb-5">
               <FormControl>
                 <TextField
-                  id="lastName"
+                  id="lastname"
                   variant="outlined"
                   placeholder="Add Last Name"
-                  {...formik.getFieldProps("lastName")}
-                  {...textErrorHelper(formik, "lastName")}
+                  {...formik.getFieldProps("lastname")}
+                  {...textErrorHelper(formik, "lastname")}
                 />
               </FormControl>
             </div>

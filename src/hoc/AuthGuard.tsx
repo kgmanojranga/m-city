@@ -1,10 +1,9 @@
+import { User } from "firebase/auth";
 import { ReactNode, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 // import { auth } from "../firebase-config";
-
-import { User } from "firebase/auth";
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -18,16 +17,13 @@ function AuthGuard({ children, user }: AuthGuardProps) {
     function () {
       if (!user) {
         navigate("/sign-in");
-        console.log("user not found");
+        return;
+      } else {
         return;
       }
-
-      console.log("outside if");
     },
     [navigate, user, children]
   );
-
-  console.log("Outside");
 
   return <>{user ? <>{children}</> : null}</>;
 }

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 //React-router-dom
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 
 //Components
 import { Header } from "./components/header-footer";
@@ -29,8 +29,6 @@ function App() {
       setUser(user);
     });
   }, []);
-
-  console.log(user);
 
   return (
     <BrowserRouter>
@@ -63,7 +61,7 @@ function App() {
           }
         />
         <Route
-          path="admin-players/edit-player/:player-id"
+          path="admin-players/edit-player/:playerid"
           element={
             <AuthGuard user={user}>
               <AddEditPlayers />

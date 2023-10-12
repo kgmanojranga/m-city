@@ -7,6 +7,8 @@ import mcitylogo from "/images/logos/manchester_city_logo.png";
 import { toast } from "react-toastify";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase-config";
+import { FormikValues } from "formik";
+import { FormHelperText } from "@mui/material";
 
 type CityLogoProps = {
   link: boolean;
@@ -99,5 +101,38 @@ async function handleLogOut() {
   }
 }
 
-export { CityLogo };
-export { showErrorToast, showSuccessToast, handleLogOut };
+function textErrorHelper(formik: FormikValues, values: string) {
+  return {
+    error: formik.errors?.[values] && formik.touched?.[values],
+    helperText:
+      formik.errors?.[values] && formik.touched?.[values]
+        ? formik.errors?.[values]
+        : null
+  };
+}
+
+function seletctErrorHelper(formik: FormikValues, values: string) {
+  if (formik.errors?.[values] && formik.touched?.[values]) {
+    return <FormHelperText>{formik.errors[values]}</FormHelperText>;
+  }
+
+  return null;
+}
+
+function selectIsError(formik: FormikValues, values: string) {
+  if (formik.errors?.[values] && formik.touched?.[values]) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export {
+  CityLogo,
+  showErrorToast,
+  showSuccessToast,
+  handleLogOut,
+  textErrorHelper,
+  seletctErrorHelper,
+  selectIsError
+};

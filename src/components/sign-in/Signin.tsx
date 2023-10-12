@@ -1,5 +1,5 @@
 //React-library
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //React-router-dom-library
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,6 @@ import { auth } from "../config/firebase-config";
 //Toastify-library
 import { showSuccessToast, showErrorToast } from "../utils/tools";
 import { UserType } from "../../types/types";
-import { Dashboard } from "@mui/icons-material";
 
 interface AuthCredential {
   email: string;
@@ -61,6 +60,12 @@ function Signin({ user }: UserType) {
     }
   }
 
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
   return (
     <>
       {!user ? (
@@ -98,9 +103,7 @@ function Signin({ user }: UserType) {
             </form>
           </div>
         </div>
-      ) : (
-        <Dashboard />
-      )}
+      ) : null}
     </>
   );
 }

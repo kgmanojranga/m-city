@@ -21,8 +21,6 @@ function Blocks() {
               ])
             );
           }
-
-          console.log(matches);
         } catch (err) {
           console.error(err);
         }

@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { collection, getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 // import { cityDb } from "./temp/m-city-export";
 
@@ -20,6 +21,8 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 export const auth = getAuth(app);
+
+export const storage = getStorage(app);
 
 const matchesCollection = collection(db, "matches");
 const playersCollection = collection(db, "players");

@@ -21,6 +21,7 @@ import {
 import { playersCollection } from "../../config/firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import { addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+import { FileUploaderButton } from "../../utils/FileUploaderButton";
 
 type ValueType = {
   name: string;
@@ -110,7 +111,9 @@ function AddEditPlayers() {
       <div className="editplayers_dialog_wrapper">
         <div>
           <form onSubmit={formik.handleSubmit}>
-            image
+            <FormControl>
+              <FileUploaderButton />
+            </FormControl>
             <hr />
             <h4>Player Info</h4>
             <div className="mb-5">

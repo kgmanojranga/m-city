@@ -28,13 +28,15 @@ type ValueType = {
   lastname: string;
   number: string;
   position: string;
+  image: string;
 };
 
 const defaultValue: ValueType = {
   name: "",
   lastname: "",
   number: "",
-  position: ""
+  position: "",
+  image: ""
 };
 
 function AddEditPlayers() {
@@ -54,7 +56,8 @@ function AddEditPlayers() {
         .required("This is required")
         .min(0, "The minimum is zero")
         .max(100, "The max is 100"),
-      position: Yup.string().required("This is required")
+      position: Yup.string().required("This is required"),
+      image: Yup.string().required("This is required")
     }),
     onSubmit: (values: ValueType) => {
       handleSubmit(values);
@@ -97,6 +100,10 @@ function AddEditPlayers() {
     }
   }
 
+  function updateImageName(filename: string) {
+    formik.setFieldValue("image", filename);
+  }
+
   useEffect(() => {
     if (playerid) {
       getPlayer();
@@ -111,8 +118,12 @@ function AddEditPlayers() {
       <div className="editplayers_dialog_wrapper">
         <div>
           <form onSubmit={formik.handleSubmit}>
-            <FormControl>
-              <FileUploaderButton />
+            <FormControl error={selectIsError(formik, "image")}>
+              <FileUploaderButton
+                randomizeFilename={true}
+                filename={(filename: string) => updateImageName(filename)}
+              />
+              {seletctErrorHelper(formik, "image")}
             </FormControl>
             <hr />
             <h4>Player Info</h4>

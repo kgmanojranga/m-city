@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MatchesType } from "../../../temp/m-city-export";
-import { matchesCollection } from "../../config/firebase-config";
+import { matchesCollection } from "../../../config/firebase-config";
 import { getDocs } from "firebase/firestore";
 import { Slide } from "react-awesome-reveal";
 import { MatchesBlock } from "../../utils/Matches-block";

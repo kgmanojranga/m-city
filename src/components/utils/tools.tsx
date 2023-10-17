@@ -6,7 +6,7 @@ import mcitylogo from "/images/logos/manchester_city_logo.png";
 
 import { toast } from "react-toastify";
 import { signOut } from "firebase/auth";
-import { auth } from "../config/firebase-config";
+import { auth } from "../../config/firebase-config";
 import { FormikValues } from "formik";
 import { FormHelperText } from "@mui/material";
 

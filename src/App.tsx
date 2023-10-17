@@ -16,7 +16,7 @@ import { AddEditPlayers } from "./components/admin/players/AddEditPlayers";
 import { TheTeam } from "./components/the-team";
 
 //Firebase
-import { auth } from "./components/config/firebase-config";
+import { auth } from "./config/firebase-config";
 import { User } from "firebase/auth";
 
 //Toastify-library

@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { showErrorToast, showSuccessToast } from "../../utils/tools";
-import { db, promotionsCollection } from "../../config/firebase-config";
+import { db, promotionsCollection } from "../../../config/firebase-config";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 function Enroll() {

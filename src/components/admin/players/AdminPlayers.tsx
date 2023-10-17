@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { AdminLayout } from "../../../hoc";
 import { getDocs, limit, orderBy, query, startAfter } from "firebase/firestore";
-import { playersCollection } from "../../config/firebase-config";
+import { playersCollection } from "../../../config/firebase-config";
 import {
   Button,
   CircularProgress,

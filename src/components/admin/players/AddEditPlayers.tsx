@@ -18,7 +18,7 @@ import {
   Button
 } from "@mui/material";
 
-import { playersCollection, storage } from "../../config/firebase-config";
+import { playersCollection, storage } from "../../../config/firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import { addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { FileUploaderButton } from "../../utils/FileUploaderButton";

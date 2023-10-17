@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { storage } from "../config/firebase-config";
+import { storage } from "../../config/firebase-config";
 import { v4 } from "uuid";
 import { showErrorToast, showSuccessToast } from "./tools";
 import { CircularProgress } from "@mui/material";

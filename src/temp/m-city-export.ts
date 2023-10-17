@@ -20,6 +20,7 @@ export type PlayerType = {
   name: string;
   number: string;
   position: string;
+  imageURL?: string;
 };
 
 export type PositionType = {

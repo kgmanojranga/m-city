@@ -27,7 +27,7 @@ function AdminPlayers() {
         const playersQuery = query(
           playersCollection,
           orderBy("name"),
-          limit(2),
+          limit(10),
           startAfter(lastVisible)
         );
         const playersSnapShot = await getDocs(playersQuery);

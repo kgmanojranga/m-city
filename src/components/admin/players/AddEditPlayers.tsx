@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { AdminLayout } from "../../../hoc";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -18,10 +18,11 @@ import {
   Button
 } from "@mui/material";
 
-import { playersCollection } from "../../config/firebase-config";
+import { playersCollection, storage } from "../../config/firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import { addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { FileUploaderButton } from "../../utils/FileUploaderButton";
+import { getDownloadURL, ref } from "firebase/storage";
 
 type ValueType = {
   name: string;
@@ -43,6 +44,9 @@ function AddEditPlayers() {
   const [formType, setFormType] = useState<string>("");
   const [values, setValues] = useState<ValueType>(defaultValue);
   const [loading, setLoading] = useState<boolean>(false);
+  const [defaultImgURL, setDefaultImgURL] = useState<string>("");
+  // const [resetImage, setResetImage] = useState<boolean>(false);
+
   const { playerid } = useParams();
   const navigate = useNavigate();
 
@@ -75,8 +79,9 @@ function AddEditPlayers() {
       } else {
         const playerRef = doc(playersCollection, playerid);
         await updateDoc(playerRef, values);
-        formik.resetForm();
-        showSuccessToast("Player was updated successfully");
+        // formik.resetForm();
+        showSuccessToast("Player was edited successfully");
+        navigate("/admin-players");
       }
     } catch (err) {
       console.error(err);
@@ -85,23 +90,60 @@ function AddEditPlayers() {
     }
   }
 
-  async function getPlayer() {
-    try {
-      const playerRef = doc(playersCollection, playerid);
-      const playerSnap = await getDoc(playerRef);
-      if (playerSnap.exists()) {
-        setFormType("edit");
-        setValues(playerSnap.data() as ValueType);
-      } else {
-        showErrorToast("Sorry, nothing was found");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  function updateImageName(filename: string) {
+  const updateImageName = useCallback(function (filename: string) {
     formik.setFieldValue("image", filename);
+  }, []);
+
+  const getPlayer = useCallback(
+    async function () {
+      try {
+        const playerRef = doc(playersCollection, playerid);
+        const playerSnap = await getDoc(playerRef);
+        if (playerSnap.exists()) {
+          setFormType("edit");
+          setValues(playerSnap.data() as ValueType);
+
+          const imageRef = ref(storage, `players/${playerSnap.data().image}`);
+          const url = await getDownloadURL(imageRef);
+
+          updateImageName(playerSnap.data().image);
+          setDefaultImgURL(url);
+        } else {
+          showErrorToast("Sorry, nothing was found");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [playerid, updateImageName]
+  );
+
+  // async function getPlayer() {
+  //   try {
+  //     const playerRef = doc(playersCollection, playerid);
+  //     const playerSnap = await getDoc(playerRef);
+  //     if (playerSnap.exists()) {
+  //       const imageRef = ref(storage, `players/${playerSnap.data().image}`);
+  //       const url = await getDownloadURL(imageRef);
+
+  //       updateImageName(playerSnap.data().image);
+
+  //       setDefaultImgURL(url);
+
+  //       setFormType("edit");
+  //       setValues(playerSnap.data() as ValueType);
+  //     } else {
+  //       showErrorToast("Sorry, nothing was found");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
+
+  function resetImageFunc() {
+    console.log("in resetImage function");
+    formik.setFieldValue("image", "");
+    setDefaultImgURL("");
   }
 
   useEffect(() => {
@@ -111,7 +153,7 @@ function AddEditPlayers() {
       setFormType("add");
       setValues(defaultValue);
     }
-  }, [playerid]);
+  }, [playerid, getPlayer]);
 
   return (
     <AdminLayout title={formType === "add" ? "Add Player" : "Edit Player"}>
@@ -121,7 +163,11 @@ function AddEditPlayers() {
             <FormControl error={selectIsError(formik, "image")}>
               <FileUploaderButton
                 randomizeFilename={true}
+                defaultImgURL={defaultImgURL}
                 filename={(filename: string) => updateImageName(filename)}
+                defaultImgName={formik.values.image}
+                dir="players"
+                resetImage={() => resetImageFunc()}
               />
               {seletctErrorHelper(formik, "image")}
             </FormControl>

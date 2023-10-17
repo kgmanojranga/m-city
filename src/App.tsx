@@ -10,6 +10,10 @@ import { Footer } from "./components/header-footer";
 import { Home } from "./components/home";
 import { Signin } from "./components/sign-in";
 import { AdminPlayers } from "./components/admin/players";
+import { Dashboard } from "./components/admin/Dashboard";
+import { AuthGuard } from "./hoc";
+import { AddEditPlayers } from "./components/admin/players/AddEditPlayers";
+import { TheTeam } from "./components/the-team";
 
 //Firebase
 import { auth } from "./components/config/firebase-config";
@@ -18,9 +22,6 @@ import { User } from "firebase/auth";
 //Toastify-library
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Dashboard } from "./components/admin/Dashboard";
-import { AuthGuard } from "./hoc";
-import { AddEditPlayers } from "./components/admin/players/AddEditPlayers";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -65,6 +66,14 @@ function App() {
           element={
             <AuthGuard user={user}>
               <AddEditPlayers />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="the-team"
+          element={
+            <AuthGuard user={user}>
+              <TheTeam />
             </AuthGuard>
           }
         />

@@ -21,14 +21,20 @@ const initialState: StateType = {
 
 function FileUploaderButton({
   randomizeFilename,
-  filename
+  filename,
+  defaultImgURL,
+  defaultImgName,
+  dir,
+  resetImage
 }: {
   randomizeFilename: boolean;
   filename: (name: string) => void;
+  defaultImgURL: string;
+  defaultImgName: string;
+  dir: string;
+  resetImage: () => void;
 }) {
   const [state, setState] = useState<StateType>(initialState);
-
-  console.log(state);
 
   const getRandomizeFilename = useCallback(
     function getRandomizeFilename() {
@@ -52,7 +58,7 @@ function FileUploaderButton({
         // for (let i = 0; i < uploadingFiles.length; i++) {
         //   const imageRef = ref(
         //     storage,
-        //     `players/${
+        //     `${dir}/${
         //       randomizeFilename ? state.name : uploadingFiles[i]?.name
         //     }`
         //   );
@@ -64,8 +70,12 @@ function FileUploaderButton({
 
         const imageRef = ref(
           storage,
-          `players/${
-            randomizeFilename ? state.currentName : uploadingFiles[0]?.name
+          `${dir}/${
+            randomizeFilename
+              ? state.currentName +
+                "." +
+                uploadingFiles[0].name.split(".").at(-1)
+              : uploadingFiles[0]?.name
           }`
         );
         await uploadBytes(imageRef, uploadingFiles[0]);
@@ -95,11 +105,13 @@ function FileUploaderButton({
       `Image${files.length > 1 ? "s" : ""} Uploaded Successfully`
     );
 
-    const imageName = randomizeFilename ? state.currentName : files[0]?.name;
+    const imageName = randomizeFilename
+      ? state.currentName + "." + files[0].name.split(".").at(-1)
+      : files[0]?.name;
 
     filename(imageName);
 
-    const imageRef = ref(storage, `players/${imageName}`);
+    const imageRef = ref(storage, `${dir}/${imageName}`);
 
     const url = await getDownloadURL(imageRef);
     setState((prevState) => {
@@ -116,15 +128,25 @@ function FileUploaderButton({
   useEffect(
     function () {
       getRandomizeFilename();
+
+      if (defaultImgURL && defaultImgName) {
+        setState((prevState) => {
+          return { ...prevState, name: defaultImgName, fileURL: defaultImgURL };
+        });
+      } else {
+        setState((prevState) => {
+          return { ...prevState, name: "", fileURL: "" };
+        });
+      }
     },
-    [getRandomizeFilename]
+    [getRandomizeFilename, defaultImgName, defaultImgURL]
   );
   return (
     <div>
       {state.fileURL ? (
         <div className="image_upload_container">
           <img style={{ width: "100%" }} src={state.fileURL} alt={state.name} />
-          <div className="remove" onClick={() => alert("remove")}>
+          <div className="remove" onClick={() => resetImage()}>
             Remove
           </div>
         </div>

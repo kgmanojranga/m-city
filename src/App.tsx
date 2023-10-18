@@ -14,6 +14,7 @@ import { Dashboard } from "./components/admin/Dashboard";
 import { AuthGuard } from "./hoc";
 import { AddEditPlayers } from "./components/admin/players/AddEditPlayers";
 import { TheTeam } from "./components/the-team";
+import { AddEditMatches, AdminMatches } from "./components/admin/matches";
 
 //Firebase
 import { auth } from "./config/firebase-config";
@@ -74,6 +75,30 @@ function App() {
           element={
             <AuthGuard user={user}>
               <TheTeam />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="admin-matches"
+          element={
+            <AuthGuard user={user}>
+              <AdminMatches />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="admin-matches/add-match"
+          element={
+            <AuthGuard user={user}>
+              <AddEditMatches />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="admin-matches/edit-match/:matchid"
+          element={
+            <AuthGuard user={user}>
+              <AddEditMatches />
             </AuthGuard>
           }
         />

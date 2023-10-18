@@ -141,7 +141,6 @@ function AddEditPlayers() {
   // }
 
   function resetImageFunc() {
-    console.log("in resetImage function");
     formik.setFieldValue("image", "");
     setDefaultImgURL("");
   }

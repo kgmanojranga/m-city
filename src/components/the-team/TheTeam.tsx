@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-
-import { PlayerCard } from "../utils/PlayerCard";
-import { Slide } from "react-awesome-reveal";
+import { useState, useEffect, ReactNode } from "react";
 
 import { showErrorToast } from "../utils/tools";
 
+import { PlayerType } from "../../temp/m-city-export";
+
+import { PlayerCard } from "../utils/PlayerCard";
+import { Slide } from "react-awesome-reveal";
+import { CircularProgress } from "@mui/material";
+
 import { playersCollection, storage } from "../../config/firebase-config";
 import { getDocs } from "firebase/firestore";
-import { PlayerType } from "../../temp/m-city-export";
 import { getDownloadURL, ref } from "firebase/storage";
 
 function TheTeam() {
   const [loading, setLoading] = useState<boolean>(false);
   const [players, setPlayers] = useState<PlayerType[]>([]);
-
-  console.log(players);
 
   async function getPlayers() {
     setLoading(true);
@@ -58,11 +58,60 @@ function TheTeam() {
     }
   }
 
+  function showPlayerByCategory(category: string): ReactNode {
+    return players
+      ? players.map((player) => {
+          return player.position === category ? (
+            <Slide direction="down" key={player.id} triggerOnce>
+              <div className="item">
+                <PlayerCard
+                  number={player.number}
+                  name={player.name}
+                  lastName={player.lastname}
+                  bck={player.imageURL || ""}
+                />
+              </div>
+            </Slide>
+          ) : null;
+        })
+      : null;
+  }
+
   useEffect(() => {
     if (players.length < 1) getPlayers();
   }, [players]);
 
-  return <div>Hi The Team</div>;
+  return (
+    <div className="the_team_container">
+      {loading ? (
+        <div className="progress">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
+          <div className="team_category_wrapper">
+            <div className="title">Keepers</div>
+            <div className="team_cards">{showPlayerByCategory("Keeper")}</div>
+          </div>
+
+          <div className="team_category_wrapper">
+            <div className="title">Defence</div>
+            <div className="team_cards">{showPlayerByCategory("Defence")}</div>
+          </div>
+
+          <div className="team_category_wrapper">
+            <div className="title">Mid Field</div>
+            <div className="team_cards">{showPlayerByCategory("Midfield")}</div>
+          </div>
+
+          <div className="team_category_wrapper">
+            <div className="title">Strikers</div>
+            <div className="team_cards">{showPlayerByCategory("Strikerz")}</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export { TheTeam };

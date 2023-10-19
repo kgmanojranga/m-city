@@ -190,6 +190,7 @@ function TheMatches() {
                   </div>
                 </div>
               </div>
+              <MatchesList matches={state.filterMatches} />
             </div>
             <div className="right">
               <Tables />

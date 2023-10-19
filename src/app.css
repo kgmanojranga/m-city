@@ -313,12 +313,14 @@ footer .footer_discl {
 }
 
 .match_box_big {
+  display: flex;
   width: 100%;
   border-bottom: 2px solid #98c6e9;
   padding: 20px;
   box-sizing: border-box;
   height: 143px;
   clear: both;
+  gap: 3rem;
 }
 
 .match_box_big .block_wraper {

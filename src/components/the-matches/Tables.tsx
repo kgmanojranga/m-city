@@ -13,8 +13,6 @@ import { getDocs } from "firebase/firestore";
 function Tables() {
   const [positions, setPostions] = useState<PositionType[]>([]);
 
-  console.log(positions);
-
   async function getPositions() {
     const currentPositions: PositionType[] = [];
     const positionsSnapShot = await getDocs(positionsCollection);

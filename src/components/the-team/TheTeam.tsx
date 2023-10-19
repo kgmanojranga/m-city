@@ -62,7 +62,7 @@ function TheTeam() {
     return players
       ? players.map((player) => {
           return player.position === category ? (
-            <Slide direction="down" key={player.id} triggerOnce>
+            <Slide direction="left" key={player.id} triggerOnce={true}>
               <div className="item">
                 <PlayerCard
                   number={player.number}

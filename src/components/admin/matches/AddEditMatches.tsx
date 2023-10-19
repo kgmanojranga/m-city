@@ -27,7 +27,7 @@ import {
   teamsCollection
 } from "../../../config/firebase-config";
 import { MatchesType, TeamsType } from "../../../temp/m-city-export";
-import { addDoc, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 
 const defaultValues: MatchesType = {
   id: "",
@@ -96,9 +96,14 @@ function AddEditMatches() {
       if (formType === "add") {
         await addDoc(matchesCollection, dataToSubmit);
         showSuccessToast("Match added successfully");
+        navigate("/admin-matches");
         formik.resetForm();
       } else {
-        console.log(formType);
+        const matchRef = doc(matchesCollection, values.id);
+        await updateDoc(matchRef, values);
+        showSuccessToast("Match updated successfully");
+        NavigationPreloadManager;
+        navigate("/admin-matches");
       }
     } catch (error) {
       console.log(error);

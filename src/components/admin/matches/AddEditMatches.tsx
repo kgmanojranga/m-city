@@ -27,7 +27,7 @@ import {
   teamsCollection
 } from "../../../config/firebase-config";
 import { MatchesType, TeamsType } from "../../../temp/m-city-export";
-import { doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs } from "firebase/firestore";
 
 const defaultValues: MatchesType = {
   id: "",
@@ -53,8 +53,6 @@ function AddEditMatches() {
   const { matchid } = useParams();
   const navigate = useNavigate();
 
-  console.log(values);
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: values,
@@ -79,9 +77,36 @@ function AddEditMatches() {
     }),
     onSubmit: (values: MatchesType) => {
       //submit form
-      console.log(values);
+      submitForm(values);
     }
   });
+
+  async function submitForm(values: MatchesType) {
+    try {
+      const dataToSubmit = values;
+
+      dataToSubmit.awayThmb =
+        teams?.filter((team) => team.shortName === values.away)[0].thmb || "";
+
+      dataToSubmit.localThmb =
+        teams?.filter((team) => team.shortName === values.local)[0].thmb || "";
+
+      setLoading(true);
+
+      if (formType === "add") {
+        await addDoc(matchesCollection, dataToSubmit);
+        showSuccessToast("Match added successfully");
+        formik.resetForm();
+      } else {
+        console.log(formType);
+      }
+    } catch (error) {
+      console.log(error);
+      showErrorToast("Error uploding the data");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function getTeams() {
     try {
@@ -137,8 +162,6 @@ function AddEditMatches() {
     }
   }, [matchid]);
 
-  console.log(formik.getFieldProps("local"));
-
   return (
     <AdminLayout title={formType === "add" ? "Add Match" : "Edit Match"}>
       <div className="editmatch_dialog_wrapper">
@@ -175,7 +198,7 @@ function AddEditMatches() {
               <FormControl style={{ marginLeft: "10px" }}>
                 <TextField
                   id="resultLocal"
-                  type="number"
+                  // type="number"
                   variant="outlined"
                   {...formik.getFieldProps("resultLocal")}
                   {...textErrorHelper(formik, "resultLocal")}
@@ -184,7 +207,7 @@ function AddEditMatches() {
             </div>
             <div>
               <h4>Result Away</h4>
-              <FormControl error={selectIsError(formik, "local")}>
+              <FormControl error={selectIsError(formik, "away")}>
                 <Select
                   id="away"
                   variant="outlined"
@@ -201,12 +224,82 @@ function AddEditMatches() {
               <FormControl style={{ marginLeft: "10px" }}>
                 <TextField
                   id="resultAway"
-                  type="number"
+                  // type="number"
                   variant="outlined"
                   {...formik.getFieldProps("resultAway")}
                   {...textErrorHelper(formik, "resultAway")}
                 />
               </FormControl>
+            </div>
+            <hr />
+            <div>
+              <h4>Match Info</h4>
+              <div className="mb-5">
+                <FormControl>
+                  <TextField
+                    id="referee"
+                    variant="outlined"
+                    placeholder="Add the referee name"
+                    {...formik.getFieldProps("referee")}
+                    {...textErrorHelper(formik, "referee")}
+                  />
+                </FormControl>
+              </div>
+              <div className="mb-5">
+                <FormControl>
+                  <TextField
+                    id="stadium"
+                    variant="outlined"
+                    placeholder="Add the stadium name"
+                    {...formik.getFieldProps("stadium")}
+                    {...textErrorHelper(formik, "stadium")}
+                  />
+                </FormControl>
+              </div>
+              <div className="mb-5">
+                <FormControl error={selectIsError(formik, "result")}>
+                  <Select
+                    id="result"
+                    variant="outlined"
+                    displayEmpty
+                    {...formik.getFieldProps("result")}
+                  >
+                    <MenuItem value="" disabled>
+                      Select a result
+                    </MenuItem>
+                    <MenuItem value="W">Win</MenuItem>
+                    <MenuItem value="L">Loose</MenuItem>
+                    <MenuItem value="D">Draw</MenuItem>
+                    <MenuItem value="n/a">Not available</MenuItem>
+                  </Select>
+                  {seletctErrorHelper(formik, "result")}
+                </FormControl>
+              </div>
+              <div className="mb-5">
+                <FormControl error={selectIsError(formik, "final")}>
+                  <Select
+                    id="final"
+                    variant="outlined"
+                    displayEmpty
+                    {...formik.getFieldProps("final")}
+                  >
+                    <MenuItem value="" disabled>
+                      Was the game played
+                    </MenuItem>
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                  </Select>
+                  {seletctErrorHelper(formik, "final")}
+                </FormControl>
+              </div>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={loading}
+              >
+                {formType === "add" ? "Add Match" : "Edit Match"}
+              </Button>
             </div>
           </form>
         </div>

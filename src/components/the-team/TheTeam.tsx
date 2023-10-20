@@ -106,7 +106,7 @@ function TheTeam() {
 
           <div className="team_category_wrapper">
             <div className="title">Strikers</div>
-            <div className="team_cards">{showPlayerByCategory("Strikerz")}</div>
+            <div className="team_cards">{showPlayerByCategory("Striker")}</div>
           </div>
         </div>
       )}

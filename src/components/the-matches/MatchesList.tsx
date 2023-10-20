@@ -14,21 +14,21 @@ function MatchesList({ matches }: { matches: MatchesType[] }) {
             x: -200
           };
         }}
-        enter={(d, i) => {
+        enter={(_, i) => {
           return {
             opacity: [1],
             x: [0],
             timing: { duration: 500, delay: i * 50, ease: easePolyOut }
           };
         }}
-        update={(d, i) => {
+        update={(_, i) => {
           return {
             opacity: [1],
             x: [0],
             timing: { duration: 500, delay: i * 50, ease: easePolyOut }
           };
         }}
-        leave={(d, i) => {
+        leave={(_, i) => {
           return {
             opacity: [0],
             x: [-200],

@@ -16,6 +16,7 @@ import { AddEditPlayers } from "./components/admin/players/AddEditPlayers";
 import { TheTeam } from "./components/the-team";
 import { AddEditMatches, AdminMatches } from "./components/admin/matches";
 import { TheMatches } from "./components/the-matches";
+import { NotFound } from "./components/not-found/NotFound";
 
 //Firebase
 import { auth } from "./config/firebase-config";
@@ -39,22 +40,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="sign-in" element={<Signin user={user} />} />
-        <Route
-          path="the-team"
-          element={
-            <AuthGuard user={user}>
-              <TheTeam />
-            </AuthGuard>
-          }
-        />
-        <Route
-          path="the-matches"
-          element={
-            <AuthGuard user={user}>
-              <TheMatches />
-            </AuthGuard>
-          }
-        />
+        <Route path="the-team" element={<TheTeam />} />
+        <Route path="the-matches" element={<TheMatches />} />
         <Route
           path="dashboard"
           element={
@@ -112,6 +99,7 @@ function App() {
             </AuthGuard>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer />
       <Footer />

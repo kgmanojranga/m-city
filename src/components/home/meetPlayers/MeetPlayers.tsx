@@ -44,7 +44,7 @@ function MeetPlayers() {
                 <Tag
                   bck="#fff"
                   size="27px"
-                  link="/the_team"
+                  link="/the-team"
                   add={{
                     color: "#0e1731",
                     display: "inline-block",

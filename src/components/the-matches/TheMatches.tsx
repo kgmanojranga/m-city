@@ -80,8 +80,6 @@ function TheMatches() {
   const [matches, setMatches] = useState<MatchesType[]>([]);
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  console.log(state);
-
   async function getMatches() {
     try {
       const currentMatches: MatchesType[] = [];

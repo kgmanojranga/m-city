@@ -1,5 +1,5 @@
 //React-library
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 //React-router-dom-library
 import { useNavigate } from "react-router-dom";
@@ -19,15 +19,16 @@ import { auth } from "../../config/firebase-config";
 
 //Toastify-library
 import { showSuccessToast, showErrorToast } from "../utils/tools";
-import { UserType } from "../../types/types";
+import { useAuthStore } from "../../store/auth.store";
 
 interface AuthCredential {
   email: string;
   password: string;
 }
 
-function Signin({ user }: UserType) {
+function Signin() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user } = useAuthStore();
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -59,12 +60,6 @@ function Signin({ user }: UserType) {
       showErrorToast("Error Login");
     }
   }
-
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
 
   return (
     <>

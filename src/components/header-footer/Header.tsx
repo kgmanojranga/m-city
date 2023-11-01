@@ -1,11 +1,13 @@
 import { AppBar, Toolbar, Button } from "@mui/material";
 
 import { CityLogo, handleLogOut } from "../utils/tools";
-import { UserType } from "../../types/types";
+// import { UserType } from "../../types/types";
 
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/auth.store";
 
-function Header({ user }: UserType) {
+function Header() {
+  const { user } = useAuthStore();
   const navigate = useNavigate();
   return (
     <AppBar
